@@ -83,6 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cuda_helper.h" />
+    <ClInclude Include="getopt.h" />
+    <ClInclude Include="kernel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="getopt.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

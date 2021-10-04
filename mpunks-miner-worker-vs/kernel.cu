@@ -28,103 +28,19 @@
 	biburl    = {http://dblp.org/rec/bib/conf/crypto/2017-2},
 	bibsource = {dblp computer science bibliography, http://dblp.org}
 	}
+
+	rewritten for mpunks @bxxd
 */
-#include <cstdio>
-#include <cstring>
-#include <iostream>
-#include <cstdlib>
-#include <cmath>
-#include <stddef.h>
-#include <gmp.h>
-#include <signal.h>
-#include "cuda_helper.h"
 
-#ifdef __linux__
-    #include <sys/time.h>
-#elif _WIN32
-    #include <Windows.h>
-    #include <stdint.h> // portable: uint64_t   MSVC: __int64 
-	int gettimeofday(struct timeval * tp, struct timezone * tzp)
-	{
-		// Note: some broken versions only have 8 trailing zero's, the correct epoch has 9 trailing zero's
-		// This magic number is the number of 100 nanosecond intervals since January 1, 1601 (UTC)
-		// until 00:00:00 January 1, 1970 
-		static const uint64_t EPOCH = ((uint64_t) 116444736000000000ULL);
-
-		SYSTEMTIME  system_time;
-		FILETIME    file_time;
-		uint64_t    time;
-
-		GetSystemTime( &system_time );
-		SystemTimeToFileTime( &system_time, &file_time );
-		time =  ((uint64_t)file_time.dwLowDateTime )      ;
-		time += ((uint64_t)file_time.dwHighDateTime) << 32;
-
-		tp->tv_sec  = (long) ((time - EPOCH) / 10000000L);
-		tp->tv_usec = (long) (system_time.wMilliseconds * 1000);
-		return 0;
-	}
-#endif
+#include "kernel.h"
 
 using namespace std;
 
-#define DEBUG 0
+__device__ uint64_t device_difficulty_upper = 0;
+__device__ uint64_t device_difficulty_lower = 5731203885580;
 
-#if DEBUG
-// __device__ const uint64_t device_difficulty_upper = 0x4e95;
-// __device__ const uint64_t device_difficulty_lower = 0x0;
-__device__ const uint64_t device_difficulty_upper = 0x0c;
-
-// 0c
-// 9d4c78d5c7c88000
-// 61133506cbd85149
-// __device__ const uint64_t device_difficulty_lower = 0xfffffffffffffffa;
-// __device__ const uint64_t device_difficulty_lower = 0x61133506cbd85149;
-__device__ const uint64_t device_difficulty_lower = 0x9d4c78d5c7c88000;
-#else
-// __device__ const uint64_t device_difficulty_upper = 0;
-// __device__ const uint64_t device_difficulty_lower = 5731203885580;
-
-__device__ const uint64_t device_difficulty_upper = 0x0;
-__device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
-// __device__ const uint64_t device_difficulty_upper = 0x0;
-// __device__ const uint64_t device_difficulty_lower = 0x24a67fcd7a8600;
-// __device__ const uint64_t device_difficulty_upper = 0x0;
-// __device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
-// 24a67fcd7a8600
-#endif
-
-// static const char *ADDRESS = "E8946EC499a839c72E60bA7d437E28cd73a3f487"; // xxx
-static const char *ADDRESS = "bb5e958846f2e246faa3bccbba89f10c37ac3996";
-
-// static const char *LASTMINED = "1279043517152342538444603392"; /// xxx
-// static const char *LASTMINED = "2166397070221148016712764928";
-static const char *LASTMINED = "0700006c8000007d4c6a4e00";
-
-// typedef unsigned long long int uint64_t;
-// typedef unsigned char uint8_t;
-// typedef unsigned int uint32_t;
-#define R 1088
-#define B 1600
-#define W 64
-#define C 512
-#define DATA_BLOCK_SIZE (R / W)
-#define BLOCK_SIZE (B / W)
-#define HASH_SIZE (C / 2 / 8)
-#define Nr 24
-#define SUFFIX 0x01
-
-#if DEBUG
-#define BLOCKNUM 2
-#define BLOCKX (2)
-#else
-#define BLOCKNUM 30000
-// #define BLOCKNUM 2
-#define BLOCKX (128)
-// #define BLOCKX (2)
-#endif
-
-texture<unsigned int, 1, cudaReadModeElementType> texreference_input;
+texture<unsigned int, 1, cudaReadModeElementType>
+	texreference_input;
 
 __constant__ uint64_t RC[24] = {
 	0x0000000000000001, 0x0000000000008082, 0x800000000000808A,
@@ -573,8 +489,7 @@ int Padding(uint8_t input[], int inputByte, uint8_t output[])
 }
 
 //byte
-#define BLOCKSIZE (DATA_BLOCK_SIZE * 8)
-#define SUMDATASIZE (BLOCKSIZE * BLOCKNUM * BLOCKX)
+
 // uint8_t m[] = {0x22, 0x23, 0x3E, 0x5F, 0xCC, 0x4E, 0xFC, 0x0E, 0xEB, 0x03, 0x0C, 0x72, 0xF9, 0x7A, 0x4E, 0x8A, 0x9D, 0xC4, 0xBB, 0x96, 0x18, 0x33, 0xDA, 0xE8, 0xEF, 0xED, 0xCF, 0xFD, 0xE2, 0xA3, 0xC0, 0x37, 0x00, 0x69, 0xCE, 0x65, 0xB3, 0x32, 0x38, 0xAC, 0x43, 0xD6, 0x47, 0x64, 0xFB, 0xDA, 0xDE, 0xDC, 0x6A, 0x22, 0xA3, 0x0C, 0x15, 0xCC, 0x01, 0x0D, 0x7F, 0xC3, 0xA4, 0x45, 0xE3, 0x5E, 0xDA, 0xB7, 0x69, 0x29, 0xD0, 0xAB, 0x6C, 0x48, 0x35, 0xF2, 0x1F, 0xA7, 0x2D, 0x20, 0xC3, 0x3E, 0x5F, 0xCC, 0x4E, 0xFC, 0x0E, 0xEB, 0x03, 0x0C, 0x72, 0xF9, 0x7A, 0x4E, 0x8A, 0x9D, 0xC4, 0xBB, 0x96, 0x18, 0x33, 0xDA, 0xE8, 0xEF, 0xED, 0xCF, 0xFD, 0xE2, 0xA3, 0xC0, 0x37, 0x00, 0x69, 0xCE, 0x65, 0xB3, 0x32, 0x38, 0xAC, 0x43, 0xD6, 0x47, 0x64, 0xFB, 0xDA, 0xDE, 0xDC};
 // uint8_t msg[32] = {0x04, 0x22, 0x00, 0x00, 0x00, 0x00, 0x3B, 0x00, 0x19, 0x00, 0x00, 0x00,
 // 				 0x7D, 0x43, 0x7E, 0x28, 0xCD, 0x73, 0xA3, 0xF4, 0x87,
@@ -586,14 +501,10 @@ uint8_t input[BLOCKSIZE];
 uint8_t host_input[SUMDATASIZE];
 
 // #define STREAMNUM 5 xxx
-#define STREAMNUM 5
+
 cudaStream_t stream[STREAMNUM];
 uint32_t *device_input[STREAMNUM];
 uint8_t *device_output[STREAMNUM];
-
-static mpz_t sender_mpz;
-static mpz_t lastMinedPunkAsset_mpz;
-static mpz_t hash_mpz;
 
 uint64_t getTime(void)
 {
@@ -624,7 +535,7 @@ void printMsg(const char *title, uint8_t *msg, int len)
 	printf("\n");
 }
 
-void init()
+void init(OPTS *opts)
 {
 
 	/* xxx random number */
@@ -635,19 +546,119 @@ void init()
 	// gmp_randseed_ui(rstate, rand());
 
 	/* big nums */
-	mpz_init2(hash_mpz, 88);
-	gmp_printf("hash_mpz=%Zd\n", hash_mpz);
+	// mpz_init2(hash_mpz, 88);
+	// gmp_printf("hash_mpz=%Zd\n", hash_mpz);
 	// mpz_init_set_str(difficultyTarget_mpz, DIFFICULTY, 10);
 	// gmp_printf("difficultyTarget_mpz=%Zd\n", difficultyTarget_mpz);
-	mpz_init_set_str(sender_mpz, &ADDRESS[22], 16);
-	gmp_printf("sender_mpz=%018Zx\n", sender_mpz);
-	gmp_printf("sender_mpz=%Zd\n", sender_mpz);
-	mpz_init_set_str(lastMinedPunkAsset_mpz, LASTMINED, 16);
-	gmp_printf("lastMinedPunkAsset_mpz=%Zd\n", lastMinedPunkAsset_mpz);
+
+	const char *val;
+	int base;
+	mpz_t sender_mpz;
+	mpz_t lastMinedPunkAsset_mpz;
+	mpz_t difficulty_mpz;
+	mpz_t startNonce_mpz;
+	size_t count;
+
+	if (opts->str_address)
+	{
+		val = opts->str_address;
+	}
+	else
+	{
+		val = DEFAULT_ADDRESS;
+	}
+	if (val && val[0] == '0' && val[1] == 'x')
+	{
+		val = val + 2;
+		base = 16;
+	}
+	else
+	{
+		base = 10;
+	}
+	mpz_init_set_str(sender_mpz, &val[22], 16);
+	gmp_printf("sender_mpz=%Zd/%018Zx\n", sender_mpz, sender_mpz);
+
+	if (opts->str_lastMined)
+	{
+		val = opts->str_lastMined;
+	}
+	else
+	{
+		val = DEFAULT_LASTMINED;
+	}
+	if (val && val[0] == '0' && val[1] == 'x')
+	{
+		val = val + 2;
+		base = 16;
+	}
+	else
+	{
+		base = 10;
+	}
+
+	mpz_init_set_str(lastMinedPunkAsset_mpz, val, base);
+	gmp_printf("lastMinedPunkAsset_mpz=%Zd/0x%Zx\n", lastMinedPunkAsset_mpz, lastMinedPunkAsset_mpz);
+
+	if (opts->str_startNonce)
+	{
+		val = opts->str_startNonce;
+	}
+	else
+	{
+		val = NULL;
+	}
+
+	if (val && val[0] == '0' && val[1] == 'x')
+	{
+		val = val + 2;
+		base = 16;
+	}
+	else
+	{
+		base = 10;
+	}
+
+	if (val)
+	{
+		mpz_init_set_str(startNonce_mpz, val, base);
+		gmp_printf("startNonce_mpz=%Zd/0x%Zx\n", startNonce_mpz, startNonce_mpz);
+		mpz_export(&opts->startNonce, &count, 1, sizeof(opts->startNonce), 0, 0, startNonce_mpz);
+	}
+
+	if (opts->str_difficulty)
+	{
+		val = opts->str_difficulty;
+	}
+	else
+	{
+		val = DEFAULT_DIFFICULTY;
+	}
+
+	if (val && val[0] == '0' && val[1] == 'x')
+	{
+		val = val + 2;
+		base = 16;
+	}
+	else
+	{
+		base = 10;
+	}
+
+	uint8_t difficulty[16];
+	if (val)
+	{
+		mpz_init_set_str(difficulty_mpz, val, base);
+		gmp_printf("difficulty_mpz=%Zd/0x%032Zx\n", difficulty_mpz, difficulty_mpz);
+		mpz_export(difficulty, &count, 1, sizeof(difficulty), 0, 0, difficulty_mpz);
+	}
+	// printMsg("difficulty", difficulty, 16);
+	opts->upper_difficulty = ((uint64_t *)difficulty)[1];
+	opts->lower_difficulty = ((uint64_t *)difficulty)[0];
+	// printf("0x%016lx %016lx\n", opts->upper_difficulty, opts->lower_difficulty);
 
 	/* set msg */
 	printMsg("pre msg", msg, 32);
-	size_t count;
 	mpz_export(msg, &count, 1, 12, 1, 0, lastMinedPunkAsset_mpz);
 	mpz_export(msg + 12, &count, 1, 9, 1, 0, sender_mpz);
 	printMsg("pos msg", msg, 32);
@@ -717,12 +728,87 @@ void sigtermHandler(int sig_num)
 	destruct();
 }
 
+void get_options(int argc, char **argv, OPTS *opts)
+{
+	int c;
+
+	memset(opts, 0, sizeof(OPTS));
+
+	static struct option long_options[] =
+		{
+			{"address", required_argument, 0, 'a'},
+			{"difficulty", required_argument, 0, 'd'},
+			{"startNonce", required_argument, 0, 's'},
+			{"lastMined", required_argument, 0, 'l'},
+			{"cudaDevice", required_argument, 0, 'x'},
+			{"cudaDevice", no_argument, 0, 't'},
+			{0, 0, 0, 0}};
+
+	while (1)
+	{
+		int option_index = 0;
+
+		c = getopt_long(argc, argv, "a:d:s:l:x:t", long_options, &option_index);
+
+		/* Detect the end of the options. */
+		if (c == -1)
+			break;
+
+		switch (c)
+		{
+		case '0':
+			printf("have 0\n");
+			break;
+		case 'a':
+			opts->str_address = strdup(optarg);
+			printf("opt address='%s'\n", opts->str_address);
+			break;
+		case 'd':
+			opts->str_difficulty = strdup(optarg);
+			printf("opt difficulty='%s'\n", opts->str_difficulty);
+			break;
+		case 's':
+			opts->str_startNonce = strdup(optarg);
+			printf("opt startNonce='%s'\n", opts->str_startNonce);
+			break;
+		case 'l':
+			opts->str_lastMined = strdup(optarg);
+			printf("opt lastMined='%s'\n", opts->str_lastMined);
+			break;
+		case 'x':
+			opts->device = atoi(optarg);
+			printf("opt device='%d'\n", opts->device);
+			break;
+		case 't':
+			opts->test = true;
+			printf("opt test only\n");
+			break;
+		default:
+			printf("option `%c` is not supported.\n", c);
+			exit(0);
+		}
+	}
+}
+
 #define TESTROUND 100
 
-int main()
+int main(int argc, char **argv)
 {
-	printf("Hi There!\n");
-	init();
+	printf("Hi There!!\n");
+
+	OPTS opts;
+	get_options(argc, argv, &opts);
+
+	printf("using device %d\n.", opts.device);
+	cudaSetDevice(opts.device);
+	checkCUDAError("set device");
+
+	init(&opts);
+
+	if (opts.test)
+	{
+		return 0;
+	}
 	GetCudaMalloc(BLOCKSIZE);
 
 	timeval tpstart;
@@ -753,13 +839,28 @@ int main()
 	// 	checkCUDAError("memcpy from buf to device_input");
 	// }
 
+	uint64_t startNonce;
 	int run = 0;
 #if DEBUG
-	uint64_t startNonce = 1;
-	startNonce = 609667058559510630;
+	if (opts.str_startNonce)
+	{
+		startNonce = opts.startNonce;
+	}
+	else
+	{
+		startNonce = 609667058559510630;
+	}
+
 	for (int i = 0; i < 1; i++)
 #else
-	uint64_t startNonce = rand_uint64();
+	if (opts.str_startNonce)
+	{
+		startNonce = opts.startNonce;
+	}
+	else
+	{
+		startNonce = rand_uint64();
+	}
 	// startNonce = 609667058559510630;
 	while (!destructing)
 	// for (int i = 0; i < 2; i++)
@@ -772,6 +873,11 @@ int main()
 		cudaMemcpyAsync(device_input[cur], host_input, SUMDATASIZE, cudaMemcpyHostToDevice, stream[cur]);
 		checkCUDAError("memcpy from buf to device_input");
 		cudaBindTexture(0, texreference_input, device_input[cur], SUMDATASIZE);
+
+		cudaMemcpyToSymbol(device_difficulty_lower, &opts.lower_difficulty, sizeof(opts.lower_difficulty), 0, cudaMemcpyHostToDevice);
+		checkCUDAError("copy to symbol");
+		cudaMemcpyToSymbol(device_difficulty_upper, &opts.upper_difficulty, sizeof(opts.upper_difficulty), 0, cudaMemcpyHostToDevice);
+		checkCUDAError("copy to symbol");
 
 		cudaEvent_t start, stop;
 		float elapsedTime = 0.0;
