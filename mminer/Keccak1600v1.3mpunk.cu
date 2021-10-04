@@ -56,11 +56,11 @@ __device__ const uint64_t device_difficulty_upper = 0x0c;
 // __device__ const uint64_t device_difficulty_lower = 0x61133506cbd85149;
 __device__ const uint64_t device_difficulty_lower = 0x9d4c78d5c7c88000;
 #else
-// __device__ const uint64_t device_difficulty_upper = 0;
-// __device__ const uint64_t device_difficulty_lower = 5731203885580;
+__device__ const uint64_t device_difficulty_upper = 0;
+__device__ const uint64_t device_difficulty_lower = 5731203885580;
 
-__device__ const uint64_t device_difficulty_upper = 0x0;
-__device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
+// __device__ const uint64_t device_difficulty_upper = 0x0;
+// __device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
 // __device__ const uint64_t device_difficulty_upper = 0x0;
 // __device__ const uint64_t device_difficulty_lower = 0x24a67fcd7a8600;
 // __device__ const uint64_t device_difficulty_upper = 0x0;
@@ -68,12 +68,12 @@ __device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
 // 24a67fcd7a8600
 #endif
 
-// static const char *ADDRESS = "E8946EC499a839c72E60bA7d437E28cd73a3f487"; // xxx
-static const char *ADDRESS = "bb5e958846f2e246faa3bccbba89f10c37ac3996";
+static const char *ADDRESS = "E8946EC499a839c72E60bA7d437E28cd73a3f487"; // xxx
+// static const char *ADDRESS = "bb5e958846f2e246faa3bccbba89f10c37ac3996";
 
 // static const char *LASTMINED = "1279043517152342538444603392"; /// xxx
 // static const char *LASTMINED = "2166397070221148016712764928";
-static const char *LASTMINED = "0700006c8000007d4c6a4e00";
+static const char *LASTMINED = "422000000003B0019000000";
 
 // typedef unsigned long long int uint64_t;
 // typedef unsigned char uint8_t;
