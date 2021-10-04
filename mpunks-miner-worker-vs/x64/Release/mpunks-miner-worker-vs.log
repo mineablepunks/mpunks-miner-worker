@@ -1,0 +1,158 @@
+﻿  Compiling CUDA source file kernel.cu...
+  
+  C:\Users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\bin\nvcc.exe" -gencode=arch=compute_52,code=\"sm_52,compute_52\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX86\x64" -x cu   -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include" -I"C:\Users\colto\Downloads\vcpkg\installed\\x64-windows\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include"     --keep-dir x64\Release  -maxrregcount=0  --machine 64 --compile -cudart static    -DWIN32 -DWIN64 -DNDEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Fdx64\Release\vc142.pdb /FS   /MD " -o x64\Release\kernel.cu.obj "C:\Users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu" 
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(213): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(213): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(219): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(219): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(225): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(225): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(231): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(231): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(237): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(237): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(243): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(243): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(249): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(249): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(255): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(255): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(261): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(261): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(267): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(267): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(273): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(273): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(279): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(279): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(285): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(285): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(291): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(291): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(297): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(297): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(303): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(303): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(309): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(309): warning : function "tex1Dfetch(texture<T, 1, cudaReadModeElementType>, int) [with T=unsigned int]"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\include\texture_fetch_functions.h(132): here was declared deprecated
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(545): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(546): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(547): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(548): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(549): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(550): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(551): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(552): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(553): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(553): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(553): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(554): warning : argument is incompatible with corresponding format string conversion
+  
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(554): warning : argument is incompatible with corresponding format string conversion
+  
+  kernel.cu
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(769): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 3 has type 'uint64_t'
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(769): note: consider using '%llu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(769): note: consider using '%Iu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(769): note: consider using '%I64u' in the format string
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(769): warning C4477: 'printf' : format string '%016lx' requires an argument of type 'unsigned long', but variadic argument 4 has type 'uint64_t'
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(769): note: consider using '%llx' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(769): note: consider using '%Ix' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(769): note: consider using '%I64x' in the format string
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(793): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'uint64_t'
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(793): note: consider using '%llu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(793): note: consider using '%Iu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(793): note: consider using '%I64u' in the format string
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(821): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'uint64_t'
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(821): note: consider using '%llu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(821): note: consider using '%Iu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(821): note: consider using '%I64u' in the format string
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(774): warning C4996: 'cudaBindTexture': was declared deprecated
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(827): warning C4996: 'cudaUnbindTexture': was declared deprecated
+C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.4/include\cuda_runtime.h(1451): warning C4996: 'cudaBindTexture': was declared deprecated
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(774): note: see reference to function template instantiation 'cudaError_t cudaBindTexture<unsigned int,1,cudaReadModeElementType>(size_t *,const texture<unsigned int,1,cudaReadModeElementType> &,const void *,size_t)' being compiled
+C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.4/include\cuda_runtime.h(1406): warning C4996: 'cudaBindTexture': was declared deprecated
+  C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.4/include\cuda_runtime.h(1451): note: see reference to function template instantiation 'cudaError_t cudaBindTexture<unsigned int,1,cudaReadModeElementType>(size_t *,const texture<unsigned int,1,cudaReadModeElementType> &,const void *,const cudaChannelFormatDesc &,size_t)' being compiled
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(774): note: see reference to function template instantiation 'cudaError_t cudaBindTexture<unsigned int,1,cudaReadModeElementType>(size_t *,const texture<unsigned int,1,cudaReadModeElementType> &,const void *,size_t)' being compiled
+     Creating library C:\Users\colto\source\repos\mpunks-miner-worker\x64\Release\mpunks-miner-worker-vs.lib and object C:\Users\colto\source\repos\mpunks-miner-worker\x64\Release\mpunks-miner-worker-vs.exp
+  LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
+  mpunks-miner-worker-vs.vcxproj -> C:\Users\colto\source\repos\mpunks-miner-worker\x64\Release\mpunks-miner-worker-vs.exe
