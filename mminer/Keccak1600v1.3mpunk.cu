@@ -40,9 +40,40 @@
 #include <signal.h>
 #include "cuda_helper.h"
 
-#define DEBUG 1
-
 using namespace std;
+
+#define DEBUG 0
+
+#if DEBUG
+// __device__ const uint64_t device_difficulty_upper = 0x4e95;
+// __device__ const uint64_t device_difficulty_lower = 0x0;
+__device__ const uint64_t device_difficulty_upper = 0x0c;
+
+// 0c
+// 9d4c78d5c7c88000
+// 61133506cbd85149
+// __device__ const uint64_t device_difficulty_lower = 0xfffffffffffffffa;
+// __device__ const uint64_t device_difficulty_lower = 0x61133506cbd85149;
+__device__ const uint64_t device_difficulty_lower = 0x9d4c78d5c7c88000;
+#else
+// __device__ const uint64_t device_difficulty_upper = 0;
+// __device__ const uint64_t device_difficulty_lower = 5731203885580;
+
+__device__ const uint64_t device_difficulty_upper = 0x0;
+__device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
+// __device__ const uint64_t device_difficulty_upper = 0x0;
+// __device__ const uint64_t device_difficulty_lower = 0x24a67fcd7a8600;
+// __device__ const uint64_t device_difficulty_upper = 0x0;
+// __device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
+// 24a67fcd7a8600
+#endif
+
+// static const char *ADDRESS = "E8946EC499a839c72E60bA7d437E28cd73a3f487"; // xxx
+static const char *ADDRESS = "bb5e958846f2e246faa3bccbba89f10c37ac3996";
+
+// static const char *LASTMINED = "1279043517152342538444603392"; /// xxx
+// static const char *LASTMINED = "2166397070221148016712764928";
+static const char *LASTMINED = "0700006c8000007d4c6a4e00";
 
 // typedef unsigned long long int uint64_t;
 // typedef unsigned char uint8_t;
@@ -104,24 +135,6 @@ uint64_t rand_uint64(void)
 
 //assume each inputs have the same input length
 
-#if DEBUG
-// __device__ const uint64_t device_difficulty_upper = 0x4e95;
-// __device__ const uint64_t device_difficulty_lower = 0x0;
-__device__ const uint64_t device_difficulty_upper = 0x0;
-// 61133506cbd85149
-// __device__ const uint64_t device_difficulty_lower = 0xfffffffffffffffa;
-// __device__ const uint64_t device_difficulty_lower = 0x61133506cbd85149;
-__device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
-#else
-// __device__ const uint64_t device_difficulty_upper = 0;
-// __device__ const uint64_t device_difficulty_lower = 5731203885580;
-// __device__ const uint64_t device_difficulty_upper = 0x0;
-// __device__ const uint64_t device_difficulty_lower = 0x24a67fcd7a8600;
-__device__ const uint64_t device_difficulty_upper = 0x0;
-__device__ const uint64_t device_difficulty_lower = 0x7a2aff56698420;
-// 24a67fcd7a8600
-#endif
-
 __device__ int device_hash_count = 0;
 __device__ uint64_t device_found_nonce;
 
@@ -162,6 +175,8 @@ __global__ void Keccak1600(const int inputByte, uint8_t *output, const int outpu
 	// 		   blockDim.x, blockIdx.x, threadIdx.x);
 	// }
 #endif
+
+	uint64_t save_state00, save_state01, save_state02, save_state03;
 
 	//absoring phase
 	for (int k = 0; k < num_keccak_blocks; k++)
@@ -318,10 +333,10 @@ __global__ void Keccak1600(const int inputByte, uint8_t *output, const int outpu
 
 		state03 = cuda_swab64(nonce);
 
-		uint64_t save_state00 = cuda_swab64(state00);
-		uint64_t save_state01 = cuda_swab64(state01);
-		uint64_t save_state02 = cuda_swab64(state02);
-		uint64_t save_state03 = cuda_swab64(state03);
+		save_state00 = cuda_swab64(state00);
+		save_state01 = cuda_swab64(state01);
+		save_state02 = cuda_swab64(state02);
+		save_state03 = cuda_swab64(state03);
 #if DEBUG
 		printf("MSG:\n0x%016lx%016lx%016lx%016lx\n",
 			   cuda_swab64(state00),
@@ -499,7 +514,16 @@ __global__ void Keccak1600(const int inputByte, uint8_t *output, const int outpu
 	if (found)
 	{
 
-		device_found_nonce = nonce;
+		// device_found_nonce = nonce;
+		printf("IN: \n0x%016lx%016lx%016lx%016lx\n OUT: \n0x%016lx%016lx%016lx%016lx\n",
+			   save_state00,
+			   save_state01,
+			   save_state02,
+			   save_state03,
+			   cuda_swab64(state00),
+			   cuda_swab64(state01),
+			   cuda_swab64(state02),
+			   cuda_swab64(state03));
 		printf(">>> FOUND XXX nonce=%lu/0x%016lx combined=0x%06lx%016lx difficulty=0x%06lx%016lx\n", nonce, nonce, upper, lower,
 			   device_difficulty_upper, device_difficulty_lower);
 	}
@@ -544,13 +568,6 @@ uint8_t *device_output[STREAMNUM];
 static mpz_t sender_mpz;
 static mpz_t lastMinedPunkAsset_mpz;
 static mpz_t hash_mpz;
-
-// static const char *ADDRESS = "E8946EC499a839c72E60bA7d437E28cd73a3f487"; // xxx
-static const char *ADDRESS = "bb5e958846f2e246faa3bccbba89f10c37ac3996";
-
-// static const char *LASTMINED = "1279043517152342538444603392"; /// xxx
-static const char *LASTMINED = "2166397070221148016712764928";
-// static const char *LASTMINED = "0";
 
 uint64_t getTime(void)
 {
@@ -599,7 +616,7 @@ void init()
 	mpz_init_set_str(sender_mpz, &ADDRESS[22], 16);
 	gmp_printf("sender_mpz=%018Zx\n", sender_mpz);
 	gmp_printf("sender_mpz=%Zd\n", sender_mpz);
-	mpz_init_set_str(lastMinedPunkAsset_mpz, LASTMINED, 10);
+	mpz_init_set_str(lastMinedPunkAsset_mpz, LASTMINED, 16);
 	gmp_printf("lastMinedPunkAsset_mpz=%Zd\n", lastMinedPunkAsset_mpz);
 
 	/* set msg */
@@ -743,7 +760,7 @@ int main()
 		cudaEventSynchronize(stop);
 
 		cudaMemcpyFromSymbol(&hash_count, device_hash_count, sizeof(hash_count), 0, cudaMemcpyDeviceToHost);
-		cudaMemcpyFromSymbol(&found_nonce, device_found_nonce, sizeof(found_nonce), 0, cudaMemcpyDeviceToHost);
+		// cudaMemcpyFromSymbol(&found_nonce, device_found_nonce, sizeof(found_nonce), 0, cudaMemcpyDeviceToHost);
 
 		if (found_nonce)
 		{
