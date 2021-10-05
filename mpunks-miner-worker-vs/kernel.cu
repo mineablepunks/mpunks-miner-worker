@@ -880,8 +880,6 @@ int main(int argc, char **argv)
 	// for (int i = 0; i < 2; i++)
 #endif
 	{
-
-		printf("%s run=%d startNonce=%lu/0x%016lx ->>\n", ctime(&t), run, startNonce, startNonce);
 		time(&t);
 
 		cudaMemcpyAsync(device_input[cur], host_input, SUMDATASIZE, cudaMemcpyHostToDevice, stream[cur]);
@@ -925,7 +923,6 @@ int main(int argc, char **argv)
 
 		cudaEventElapsedTime(&elapsedTime, start, stop);
 
-		printf("elapsedTime=%.2fms\n", elapsedTime);
 		if (run != 0) // first time to call kernel will cost more second
 			all_sec += elapsedTime;
 		cudaEventDestroy(start);
@@ -937,15 +934,17 @@ int main(int argc, char **argv)
 
 		// n_hashes += BLOCKX * BLOCKNUM;
 
-		printf("hash_count=%d n_hashes=%d\n", hash_count, n_hashes);
 		startNonce += hash_count;
 		n_hashes += hash_count;
 		hash_count = 0;
 		cudaMemcpyToSymbol(device_hash_count, &hash_count, sizeof(hash_count), 0, cudaMemcpyHostToDevice);
 
 		elapsed = getTime() - tstart;
-		if (elapsed > 1000)
+		if (elapsed > 5000)
 		{
+			printf("%s run=%d startNonce=%lu/0x%016lx ->>\n", ctime(&t), run, startNonce, startNonce);
+			printf("elapsedTime=%.2fms\n", elapsedTime);
+			printf("hash_count=%d n_hashes=%d\n", hash_count, n_hashes);
 			printf(">>> STATS.. nhashes=%lu/s\n", (n_hashes / elapsed) * 1000);
 			n_hashes = 0;
 			tstart = getTime();
