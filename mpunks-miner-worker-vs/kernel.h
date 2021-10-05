@@ -10,6 +10,8 @@
 
 #include <gmp.h>
 #include <signal.h>
+#include <sstream>
+#include <fstream>
 #include "cuda_helper.h"
 
 #ifdef __linux__
@@ -90,6 +92,7 @@ typedef struct OPTS
     char *str_startNonce;
     uint64_t startNonce;
     int device;
+	char *nonce_directory;
     bool test;
 } OPTS;
 

@@ -468,6 +468,8 @@ __global__ void Keccak1600(const int inputByte, uint8_t *output, const int outpu
 			   cuda_swab64(state03));
 		printf(">>> FOUND XXX nonce=%lu/0x%016lx combined=0x%06lx%016lx difficulty=0x%06lx%016lx\n", nonce, nonce, upper, lower,
 			   device_difficulty_upper, device_difficulty_lower);
+
+		device_found_nonce = nonce;
 	}
 
 	atomicAdd(&device_hash_count, 1);
@@ -742,13 +744,15 @@ void get_options(int argc, char **argv, OPTS *opts)
 			{"lastMined", required_argument, 0, 'l'},
 			{"cudaDevice", required_argument, 0, 'x'},
 			{"cudaDevice", no_argument, 0, 't'},
+			{"nonceDirectory", required_argument, 0, 'n'},
 			{0, 0, 0, 0}};
 
+	int nonceDirectoryPresent = 0;
 	while (1)
 	{
 		int option_index = 0;
 
-		c = getopt_long(argc, argv, "a:d:s:l:x:t", long_options, &option_index);
+		c = getopt_long(argc, argv, "a:d:s:l:x:t:n:", long_options, &option_index);
 
 		/* Detect the end of the options. */
 		if (c == -1)
@@ -783,10 +787,20 @@ void get_options(int argc, char **argv, OPTS *opts)
 			opts->test = true;
 			printf("opt test only\n");
 			break;
+		case 'n':
+			opts->nonce_directory = strdup(optarg);
+			nonceDirectoryPresent = 1;
+			printf("opt nonceDirectory='%s'\n", opts->nonce_directory);
+			break;
 		default:
 			printf("option `%c` is not supported.\n", c);
 			exit(0);
 		}
+	}
+
+	if (!nonceDirectoryPresent) {
+		printf("nonceDirectory is a required argument.");
+		exit(1);
 	}
 }
 
@@ -894,9 +908,17 @@ int main(int argc, char **argv)
 		cudaMemcpyFromSymbol(&hash_count, device_hash_count, sizeof(hash_count), 0, cudaMemcpyDeviceToHost);
 		// cudaMemcpyFromSymbol(&found_nonce, device_found_nonce, sizeof(found_nonce), 0, cudaMemcpyDeviceToHost);
 
+		cudaMemcpyFromSymbol(&found_nonce, device_found_nonce, sizeof(found_nonce), 0, cudaMemcpyDeviceToHost);
 		if (found_nonce)
 		{
 			printf(">>>>>>>>>>>found_nonce=%lu\n", found_nonce);
+
+			stringstream hexStream;
+			hexStream << hex << found_nonce;
+			string nonceHex = hexStream.str();
+			string outputFile = string(opts.nonce_directory) + "/" + nonceHex;
+			ofstream{ outputFile };
+
 			found_nonce = 0;
 			cudaMemcpyToSymbol(device_found_nonce, &found_nonce, sizeof(found_nonce), 0, cudaMemcpyHostToDevice);
 		}
