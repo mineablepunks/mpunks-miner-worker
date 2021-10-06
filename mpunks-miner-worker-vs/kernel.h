@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <sstream>
 #include <fstream>
+#include <inttypes.h>
 #include "cuda_helper.h"
 
 #ifdef __linux__

@@ -75,8 +75,6 @@ uint64_t rand_uint64(void)
 	return r;
 }
 
-//assume each inputs have the same input length
-
 __device__ int device_hash_count = 0;
 __device__ uint64_t device_found_nonce;
 
@@ -100,22 +98,9 @@ __global__ void Keccak1600(const int inputByte, uint8_t *output, const int outpu
 	uint64_t thread = blockDim.x * blockIdx.x + threadIdx.x;
 	uint64_t nonce = startNonce + thread;
 
-	// nonce = startNonce + device_hash_count;
-
 #if DEBUG
-	// printf("nonce=%lu/0x%016x\n", nonce, nonce);
 	printf("n=%lu t=%lu nk=%d bdim=%d bid=%d tid=%d\n", nonce, thread, num_keccak_blocks,
 		   blockDim.x, blockIdx.x, threadIdx.x);
-#else
-	// printf("n=%lu t=%lu nk=%d bdim=%d bid=%d tid=%d\n", nonce, thread, num_keccak_blocks,
-	// 	   blockDim.x, blockIdx.x, threadIdx.x);
-
-	// if (nonce == 609667058559510631)
-	// {
-	// 	printf("here!!!!\n");
-	// 	printf("n=%lu t=%lu nk=%d bdim=%d bid=%d tid=%d\n", nonce, thread, num_keccak_blocks,
-	// 		   blockDim.x, blockIdx.x, threadIdx.x);
-	// }
 #endif
 
 	uint64_t save_state00, save_state01, save_state02, save_state03;
@@ -423,7 +408,6 @@ __global__ void Keccak1600(const int inputByte, uint8_t *output, const int outpu
 #endif
 
 #if DEBUG
-	// printf("state:0x%016lx\n", cuda_swab64(state00));
 	printf("nonce=0x%016lx\nOUT: \n0x%016lx%016lx%016lx%016lx\n",
 		   nonce,
 		   cuda_swab64(state00),
@@ -455,8 +439,6 @@ __global__ void Keccak1600(const int inputByte, uint8_t *output, const int outpu
 
 	if (found)
 	{
-
-		// device_found_nonce = nonce;
 		printf("IN: \n0x%016lx%016lx%016lx%016lx\n OUT: \n0x%016lx%016lx%016lx%016lx\n",
 			   save_state00,
 			   save_state01,
@@ -491,11 +473,6 @@ int Padding(uint8_t input[], int inputByte, uint8_t output[])
 }
 
 //byte
-
-// uint8_t m[] = {0x22, 0x23, 0x3E, 0x5F, 0xCC, 0x4E, 0xFC, 0x0E, 0xEB, 0x03, 0x0C, 0x72, 0xF9, 0x7A, 0x4E, 0x8A, 0x9D, 0xC4, 0xBB, 0x96, 0x18, 0x33, 0xDA, 0xE8, 0xEF, 0xED, 0xCF, 0xFD, 0xE2, 0xA3, 0xC0, 0x37, 0x00, 0x69, 0xCE, 0x65, 0xB3, 0x32, 0x38, 0xAC, 0x43, 0xD6, 0x47, 0x64, 0xFB, 0xDA, 0xDE, 0xDC, 0x6A, 0x22, 0xA3, 0x0C, 0x15, 0xCC, 0x01, 0x0D, 0x7F, 0xC3, 0xA4, 0x45, 0xE3, 0x5E, 0xDA, 0xB7, 0x69, 0x29, 0xD0, 0xAB, 0x6C, 0x48, 0x35, 0xF2, 0x1F, 0xA7, 0x2D, 0x20, 0xC3, 0x3E, 0x5F, 0xCC, 0x4E, 0xFC, 0x0E, 0xEB, 0x03, 0x0C, 0x72, 0xF9, 0x7A, 0x4E, 0x8A, 0x9D, 0xC4, 0xBB, 0x96, 0x18, 0x33, 0xDA, 0xE8, 0xEF, 0xED, 0xCF, 0xFD, 0xE2, 0xA3, 0xC0, 0x37, 0x00, 0x69, 0xCE, 0x65, 0xB3, 0x32, 0x38, 0xAC, 0x43, 0xD6, 0x47, 0x64, 0xFB, 0xDA, 0xDE, 0xDC};
-// uint8_t msg[32] = {0x04, 0x22, 0x00, 0x00, 0x00, 0x00, 0x3B, 0x00, 0x19, 0x00, 0x00, 0x00,
-// 				 0x7D, 0x43, 0x7E, 0x28, 0xCD, 0x73, 0xA3, 0xF4, 0x87,
-// 				 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 uint8_t msg[32] = {0};
 
 uint8_t output[BLOCKNUM * BLOCKX][HASH_SIZE];
@@ -516,7 +493,6 @@ uint64_t getTime(void)
 	gettimeofday(&tv, NULL);
 
 	val = (((uint64_t)tv.tv_sec) * 1000 + ((uint64_t)tv.tv_usec) / 1000);
-	// printf("getTime tv.tv_sec %ld tv_usec %ld val %ld\n", tv.tv_sec, tv.tv_usec, val);
 	return (uint64_t)val;
 }
 
@@ -543,15 +519,6 @@ void init(OPTS *opts)
 	/* xxx random number */
 	time_t t;
 	srand((unsigned)time(&t));
-	// mpz_init(rnum);
-	// gmp_randinit_mt(rstate);
-	// gmp_randseed_ui(rstate, rand());
-
-	/* big nums */
-	// mpz_init2(hash_mpz, 88);
-	// gmp_printf("hash_mpz=%Zd\n", hash_mpz);
-	// mpz_init_set_str(difficultyTarget_mpz, DIFFICULTY, 10);
-	// gmp_printf("difficultyTarget_mpz=%Zd\n", difficultyTarget_mpz);
 
 	const char *val;
 	int base;
@@ -654,10 +621,8 @@ void init(OPTS *opts)
 		gmp_printf("difficulty_mpz=%Zd/0x%032Zx\n", difficulty_mpz, difficulty_mpz);
 		mpz_export(difficulty, &count, 1, sizeof(difficulty), 0, 0, difficulty_mpz);
 	}
-	// printMsg("difficulty", difficulty, 16);
 	opts->upper_difficulty = ((uint64_t *)difficulty)[1];
 	opts->lower_difficulty = ((uint64_t *)difficulty)[0];
-	// printf("0x%016lx %016lx\n", opts->upper_difficulty, opts->lower_difficulty);
 
 	/* set msg */
 	printMsg("pre msg", msg, 32);
@@ -675,9 +640,6 @@ void init(OPTS *opts)
 	for (int i = 0; i < BLOCKX * BLOCKNUM; i++)
 	{
 		memcpy(host_input + i * BLOCKSIZE, input, BLOCKSIZE);
-		// printMsg("msg",host_input + i*BLOCKSIZE, 32);
-
-		// break;
 	}
 }
 
@@ -826,7 +788,6 @@ int main(int argc, char **argv)
 	GetCudaMalloc(BLOCKSIZE);
 
 	timeval tpstart;
-	// timeval tpend;
 	double timeuse;
 	printf("CUDA start\n");
 	int cur = 0;
@@ -844,14 +805,6 @@ int main(int argc, char **argv)
 	time_t t;
 	uint64_t found_nonce = 0;
 	cudaMemcpyToSymbol(device_found_nonce, &found_nonce, sizeof(found_nonce), 0, cudaMemcpyHostToDevice);
-
-	// startNonce = rand_uint64();
-
-	// for (cur = 0; cur < STREAMNUM; cur++)
-	// {
-	// 	cudaMemcpyAsync(device_input[cur], host_input, SUMDATASIZE, cudaMemcpyHostToDevice, stream[cur]);
-	// 	checkCUDAError("memcpy from buf to device_input");
-	// }
 
 	uint64_t startNonce;
 	int run = 0;
@@ -875,9 +828,7 @@ int main(int argc, char **argv)
 	{
 		startNonce = rand_uint64();
 	}
-	// startNonce = 609667058559510630;
 	while (!destructing)
-	// for (int i = 0; i < 2; i++)
 #endif
 	{
 		time(&t);
@@ -904,7 +855,6 @@ int main(int argc, char **argv)
 		cudaEventSynchronize(stop);
 
 		cudaMemcpyFromSymbol(&hash_count, device_hash_count, sizeof(hash_count), 0, cudaMemcpyDeviceToHost);
-		// cudaMemcpyFromSymbol(&found_nonce, device_found_nonce, sizeof(found_nonce), 0, cudaMemcpyDeviceToHost);
 
 		cudaMemcpyFromSymbol(&found_nonce, device_found_nonce, sizeof(found_nonce), 0, cudaMemcpyDeviceToHost);
 		if (found_nonce)
@@ -927,28 +877,25 @@ int main(int argc, char **argv)
 			all_sec += elapsedTime;
 		cudaEventDestroy(start);
 		cudaEventDestroy(stop);
-		// printf("copying %d bytes to output\n", HASH_SIZE * BLOCKNUM * BLOCKX);
-		// cudaMemcpyAsync(output, device_output[cur], HASH_SIZE * BLOCKNUM * BLOCKX, cudaMemcpyDeviceToHost, stream[cur]);
-
-		// checkOutput();
-
-		// n_hashes += BLOCKX * BLOCKNUM;
 
 		startNonce += hash_count;
 		n_hashes += hash_count;
-		hash_count = 0;
-		cudaMemcpyToSymbol(device_hash_count, &hash_count, sizeof(hash_count), 0, cudaMemcpyHostToDevice);
 
 		elapsed = getTime() - tstart;
 		if (elapsed > 5000)
 		{
-			printf("%s run=%d startNonce=%lu/0x%016lx ->>\n", ctime(&t), run, startNonce, startNonce);
+			printf("%s run=%d startNonce=0x%" PRIx64 " ->>\n", ctime(&t), run, startNonce);
+#if DEBUG
 			printf("elapsedTime=%.2fms\n", elapsedTime);
 			printf("hash_count=%d n_hashes=%d\n", hash_count, n_hashes);
+#endif
 			printf(">>> STATS.. nhashes=%lu/s\n", (n_hashes / elapsed) * 1000);
 			n_hashes = 0;
 			tstart = getTime();
 		}
+
+		hash_count = 0;
+		cudaMemcpyToSymbol(device_hash_count, &hash_count, sizeof(hash_count), 0, cudaMemcpyHostToDevice);
 
 		cur = (cur + 1) % STREAMNUM;
 		cudaUnbindTexture(&texreference_input);
@@ -956,22 +903,12 @@ int main(int argc, char **argv)
 		fflush(stdout);
 	}
 	cudaDeviceSynchronize();
-	// gettimeofday(&tpend, NULL);
-	timeuse = all_sec * 1000; //1000000*(tpend.tv_sec-tpstart.tv_sec) + tpend.tv_usec-tpstart.tv_usec;
+	timeuse = all_sec * 1000;
 	printf("used time: %f s\n", timeuse / 1000000);
-	// printf("blockpersecond 2^%.5f\n", log2(BLOCKNUM * BLOCKX * (TESTROUND - 1) / (timeuse / 1000000)));
-	// printf("total block: %d\n", BLOCKNUM * BLOCKX * (TESTROUND - 1));
 	checkCUDAError("kernel invocation");
 
 	destruct();
 	printf("END\n");
-	// cout << sizeof(output) << endl;
-	// for (int d = 0; d < 3; d++)
-	// {
-	// 	printf("block %d:\n", d);
-	// 	printMsg(NULL, output[d], HASH_SIZE);
-	// 	printMsg("src", host_input + d * BLOCKSIZE, 32);
-	// }
 
 	return 0;
 }
