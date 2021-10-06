@@ -828,6 +828,9 @@ int main(int argc, char **argv)
 	{
 		startNonce = rand_uint64();
 	}
+
+	uint64_t originalStartNonce = startNonce;
+
 	while (!destructing)
 #endif
 	{
@@ -884,7 +887,8 @@ int main(int argc, char **argv)
 		elapsed = getTime() - tstart;
 		if (elapsed > 5000)
 		{
-			printf("%s run=%d startNonce=0x%" PRIx64 " ->>\n", ctime(&t), run, startNonce);
+			uint64_t totalAttempts = startNonce - originalStartNonce;
+			printf("%s run=%d totalAttempts=0x%" PRIx64 " startNonce=0x% " PRIx64 " ->>\n", ctime(&t), run, totalAttempts, startNonce);
 #if DEBUG
 			printf("elapsedTime=%.2fms\n", elapsedTime);
 			printf("hash_count=%d n_hashes=%d\n", hash_count, n_hashes);

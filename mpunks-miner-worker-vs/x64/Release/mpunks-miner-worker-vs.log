@@ -130,24 +130,25 @@ c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu
 c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(452): warning : argument is incompatible with corresponding format string conversion
   
   kernel.cu
-c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(862): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'uint64_t'
-  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(862): note: consider using '%llu' in the format string
-  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(862): note: consider using '%Iu' in the format string
-  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(862): note: consider using '%I64u' in the format string
-c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(892): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'uint64_t'
-  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(892): note: consider using '%llu' in the format string
-  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(892): note: consider using '%Iu' in the format string
-  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(892): note: consider using '%I64u' in the format string
-c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(838): warning C4996: 'cudaBindTexture': was declared deprecated
-c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(901): warning C4996: 'cudaUnbindTexture': was declared deprecated
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(865): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'uint64_t'
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(865): note: consider using '%llu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(865): note: consider using '%Iu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(865): note: consider using '%I64u' in the format string
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(896): warning C4477: 'printf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 1 has type 'uint64_t'
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(896): note: consider using '%llu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(896): note: consider using '%Iu' in the format string
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(896): note: consider using '%I64u' in the format string
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(841): warning C4996: 'cudaBindTexture': was declared deprecated
+c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(905): warning C4996: 'cudaUnbindTexture': was declared deprecated
 C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.4/include\cuda_runtime.h(1451): warning C4996: 'cudaBindTexture': was declared deprecated
-  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(838): note: see reference to function template instantiation 'cudaError_t cudaBindTexture<unsigned int,1,cudaReadModeElementType>(size_t *,const texture<unsigned int,1,cudaReadModeElementType> &,const void *,size_t)' being compiled
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(841): note: see reference to function template instantiation 'cudaError_t cudaBindTexture<unsigned int,1,cudaReadModeElementType>(size_t *,const texture<unsigned int,1,cudaReadModeElementType> &,const void *,size_t)' being compiled
 C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.4/include\cuda_runtime.h(1406): warning C4996: 'cudaBindTexture': was declared deprecated
   C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.4/include\cuda_runtime.h(1451): note: see reference to function template instantiation 'cudaError_t cudaBindTexture<unsigned int,1,cudaReadModeElementType>(size_t *,const texture<unsigned int,1,cudaReadModeElementType> &,const void *,const cudaChannelFormatDesc &,size_t)' being compiled
-  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(838): note: see reference to function template instantiation 'cudaError_t cudaBindTexture<unsigned int,1,cudaReadModeElementType>(size_t *,const texture<unsigned int,1,cudaReadModeElementType> &,const void *,size_t)' being compiled
+  c:\users\colto\source\repos\mpunks-miner-worker\mpunks-miner-worker-vs\kernel.cu(841): note: see reference to function template instantiation 'cudaError_t cudaBindTexture<unsigned int,1,cudaReadModeElementType>(size_t *,const texture<unsigned int,1,cudaReadModeElementType> &,const void *,size_t)' being compiled
      Creating library C:\Users\colto\source\repos\mpunks-miner-worker\x64\Release\mpunks-miner-worker-vs.lib and object C:\Users\colto\source\repos\mpunks-miner-worker\x64\Release\mpunks-miner-worker-vs.exp
   Generating code
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 8 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 8 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   mpunks-miner-worker-vs.vcxproj -> C:\Users\colto\source\repos\mpunks-miner-worker\x64\Release\mpunks-miner-worker-vs.exe
